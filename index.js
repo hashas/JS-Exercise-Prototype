@@ -52,8 +52,13 @@ Person.prototype.eat = function (edible) {
 }
 
 Person.prototype.poop = function () {
-  
+  this.stomach = [];
 }
+
+Person.prototype.toString = function () {
+  return this.name + ',' + this.age;
+}
+
 /*
   TASK 2
     - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -68,9 +73,28 @@ Person.prototype.poop = function () {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, mpg) {
+  this.model = model;
+  this.milesPerGallon = mpg;
+  this.tank = 0;
+  this.odometer = 0;
 }
+
+Car.prototype.fill = function (gallons) {
+  this.tank += gallons;
+}
+
+Car.prototype.drive = function (distance) {
+  if (this.tank >= distance / this.milesPerGallon) {
+    this.odometer += distance;
+    this.tank -= distance / this.milesPerGallon;
+  } 
+    else {
+      this.odometer += this.tank * this.milesPerGallon;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`;
+  }
+};
 
 /*
   TASK 3
