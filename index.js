@@ -39,8 +39,24 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
+}
 
+Person.prototype.eat = function (edible) {
+  if (this.stomach.length<10) {
+    this.stomach.push(edible);
+  }
+}
+
+Person.prototype.poop = function () {
+  this.stomach = [];
+}
+
+Person.prototype.toString = function () {
+  return this.name + ',' + this.age;
 }
 
 /*
@@ -57,9 +73,28 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, mpg) {
+  this.model = model;
+  this.milesPerGallon = mpg;
+  this.tank = 0;
+  this.odometer = 0;
 }
+
+Car.prototype.fill = function (gallons) {
+  this.tank += gallons;
+}
+
+Car.prototype.drive = function (distance) {
+  if (this.tank >= distance / this.milesPerGallon) {
+    this.odometer += distance;
+    this.tank -= distance / this.milesPerGallon;
+  } 
+    else {
+      this.odometer += this.tank * this.milesPerGallon;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`;
+  }
+};
 
 /*
   TASK 3
@@ -68,18 +103,28 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  this.name = name;
+  this.age = age;
+  this.favoriteToy = favoriteToy;
 }
+
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function () {
+  return 'Playing with' + this.favoriteToy;
+};
+
+
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. window/global object binding - when in the global scope the value of "this" will be the window/global object
+  2. implicit binding - when calling a funciton/method, "this" refers to the object before the preceding dot
+  3. new bindings - when we use a constructor funciton, "this" refers to the specific instance of the object that is created by the constructor function
+  4. explicit bindings - when we use 'call' and 'apply' method, "this" refers to the first parameter
 */
 
 
